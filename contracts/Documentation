@@ -1,0 +1,28 @@
+
+As per my understanding, The objectives are,
+Make the certificates verifiable.
+Prevent Tampering.
+These can be achieved by,
+
+When certificate generation,
+  Step 1 :The signer Enters certificate details such as certificate number, Name of the candidate, CGPA 
+  in the webUI.
+  
+  step 2 :The data entered is signed using signer's private Key. 
+    var signature = {The output from above step}
+
+  step 3 :broadcast() function in smartContract is invoked. It emits a event.
+  parameter1: certificate number.
+  parameter2: signature.
+  parameter3: address of the signer. This paramerter is important for verification, Because the signer account might in change
+  in future. [signedBy]
+
+For Verification:
+  The employer enters the details in the certificate into the webUI.
+  var data = {employer enters the data}
+  working:
+    1. getPastEvents(), filterd by certificate No.
+    2. get the signature, signedBy from the event.
+    3. web3.eth.personal.ecRecover(data, signature)
+    4. compare output of 'ecRecover()' and 'signedBy' from the event. If both are same, the cerificate is
+       verified. 
