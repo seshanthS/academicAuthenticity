@@ -14,9 +14,11 @@ contract cert {
   uint signerId;
   address approver;
   mapping(uint => address)signer;
- 
-  event certificateApproved(uint indexed _serialNo, bytes _signature, address signedBy);
-  
+
+  event certificateApproved(uint indexed _serialNo, bytes _signature,uint _timestamp, address signedBy);
+  event signerAdded(uint);
+  event signerRemoved(uint);
+  event signerModified(uint, address);
   
   constructor(address _approver)public {
     approver = _approver;
@@ -32,18 +34,22 @@ contract cert {
     _;
   }
   
-  function addSigner(address _signer)public onlyApprover{
+  function addSigner(address _signer)public onlyApprover returns (uint){
     signerId++;
     signer[signerId] = _signer;
+    emit signerAdded(signerId);
+    return signerId;
   }
 
-  function modifySigner(uint _signerId, address _newSignerId)public onlyApprover{
-    signer[_signerId] = _newSignerId;
+  function modifySigner(uint _signerId, address _newSignerAddress)public onlyApprover{
+    signer[_signerId] = _newSignerAddress;
+    emit signerModified(_signerId, signer[_signerId]);
   }
 
   //assign 0 address to remove the signer
   function removeSigner(uint _signerId) public onlyApprover {
     signer[_signerId] = address(0);
+    emit signerRemoved(_signerId);
   }
   
   //Broadcasts the certificate to the network.
@@ -51,6 +57,6 @@ contract cert {
   onlySigners(_signerId){
     //must be a valid signer
     require(signer[_signerId] != address(0), "Not a signer anymore");
-    emit certificateApproved(_serialNo, certificate, msg.sender);
+    emit certificateApproved(_serialNo, certificate, now, msg.sender);
   } 
 }
