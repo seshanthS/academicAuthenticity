@@ -11,11 +11,18 @@ contract cert {
          Signers will sign the certificates offchain. Only Signers can approve the certificate 
          by invoking the broadcast() function. An event certificateApproved will be emited.
  */  
-  uint signerId;
-  address approver;
-  mapping(uint => address)signer;
+  uint private signerId;
+  address private approver;
+  mapping(uint => address)private signer;
+  mapping(uint => address)private certifiedTo;
+  
+  event certificateApproved(
+    uint indexed _certificateNo
+  , bytes _signature
+  , uint _timestamp
+  ,address _issuedTo
+  , address signedBy);
 
-  event certificateApproved(uint indexed _certificateNo, bytes _signature,uint _timestamp, address signedBy);
   event signerAdded(uint);
   event signerRemoved(uint);
   event signerModified(uint, address);
@@ -53,10 +60,19 @@ contract cert {
   }
   
   //Broadcasts the certificate to the network.
-  function broadcast(uint _certificateNo, bytes memory certificate, uint _signerId)public
+  function broadcast(uint _certificateNo,address _to, bytes memory certificate, uint _signerId)public
   onlySigners(_signerId){
+
     //must be a valid signer
     require(signer[_signerId] != address(0), "Not a signer anymore");
-    emit certificateApproved(_certificateNo, certificate, now, msg.sender);
+    certifiedTo[_certificateNo] = _to;
+
+    emit certificateApproved(_certificateNo, certificate, now, _to, msg.sender);
   } 
+
+  //Function returns the address/user to whom the certificate is awarded.
+  function getCertificateDetails(uint _certificateNo)public view returns(address) {
+    return certifiedTo[_certificateNo];
+  }
+
 }
