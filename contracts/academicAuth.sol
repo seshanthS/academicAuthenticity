@@ -15,7 +15,7 @@ contract cert {
   address approver;
   mapping(uint => address)signer;
 
-  event certificateApproved(uint indexed _serialNo, bytes _signature,uint _timestamp, address signedBy);
+  event certificateApproved(uint indexed _certificateNo, bytes _signature,uint _timestamp, address signedBy);
   event signerAdded(uint);
   event signerRemoved(uint);
   event signerModified(uint, address);
@@ -53,10 +53,10 @@ contract cert {
   }
   
   //Broadcasts the certificate to the network.
-  function broadcast(uint _serialNo, bytes memory certificate, uint _signerId)public
+  function broadcast(uint _certificateNo, bytes memory certificate, uint _signerId)public
   onlySigners(_signerId){
     //must be a valid signer
     require(signer[_signerId] != address(0), "Not a signer anymore");
-    emit certificateApproved(_serialNo, certificate, now, msg.sender);
+    emit certificateApproved(_certificateNo, certificate, now, msg.sender);
   } 
 }
