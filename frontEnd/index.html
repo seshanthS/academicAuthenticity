@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Academic Auth</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="public/js/web3.js"></script>
+  <script src="public/js/index.js"></script>
+</head>
+<body>
+  <form id="signForm"
+  
+  <label for="cerificateNumber">certificateNumber</label>
+  <input type="text" id="certificateNumber"> <br>
+  <label for="name">Name</label>
+  <input type="text" id="name"> <br>
+  <label for="cgpa">CGPA</label>
+  <input type="text" id="cgpa"> <br>
+  <input type="radio" name="option" value="sign" checked="true" >sign
+  <input type="radio" name="option" value="verify" >verify <br>
+  <input type="button" id="signBtn" name="Submit" onclick="decide()">
+</form>
+
+
+  <script>
+    window.addEventListener('load',async()=>{
+      checkAndInjectProvider();
+    })
+    function decide(){
+      
+      
+      var radioBtn = document.getElementsByName('option');
+      for(i=0; i < radioBtn.length; i++){
+        if(radioBtn[i].checked){
+          
+          switch(radioBtn[i].value){
+          case "sign":
+            signAndSubmit();
+            break;
+        
+          case "verify":
+            verify();
+        }
+        }
+        
+    }
+    }
+  </script>
+</body>
+</html>
