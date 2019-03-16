@@ -10,17 +10,21 @@
   <script src="public/js/abi.js"></script>
 </head>
 <body>
-  <form id="signForm"
+  <form id="signForm">
   
+  <input type="radio" name="option" value="sign" onclick="radioClicked(this)" checked="true" >sign
+  <input type="radio" name="option" value="verify" onclick="radioClicked(this)" >verify <br>
   <label for="cerificateNumber">certificateNumber</label>
   <input type="text" id="certificateNumber"> <br>
   <label for="name">Name</label>
   <input type="text" id="name"> <br>
   <label for="cgpa">CGPA</label>
   <input type="text" id="cgpa"> <br>
-  <input type="radio" name="option" value="sign" checked="true" >sign
-  <input type="radio" name="option" value="verify" >verify <br>
-  <input type="button" id="signBtn" name="Submit" onclick="decide()">
+  <label for="addressOfStudent">Issued To</label>
+  <input type="text" id="addressOfStudent"> <br>
+  <label for="signerId" id="signerIdLabel">SignerId</label>
+  <input type="text" id="signerId"> <br>
+  <input type="button" id="signBtn" value="Submit" onclick="decide()">
 </form>
 
 
@@ -28,6 +32,18 @@
     window.addEventListener('load',async()=>{
       checkAndInjectProvider();
     })
+
+    function radioClicked(btn){
+      if(btn.checked && btn.value == 'verify'){
+          document.getElementById('signerIdLabel').style.visibility='hidden'
+          document.getElementById('signerId').style.visibility='hidden'
+          document.getElementById('signBtn').value="verify"
+        }else{
+          document.getElementById('signerId').style.visibility='visible'
+          document.getElementById('signerIdLabel').style.visibility='visible'
+          document.getElementById('signBtn').value="verify"
+         }
+    }
     function decide(){
       var radioBtn = document.getElementsByName('option');
       for(i=0; i < radioBtn.length; i++){
