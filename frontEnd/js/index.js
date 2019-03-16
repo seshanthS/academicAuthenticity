@@ -13,7 +13,7 @@ async function signAndSubmit(){
     name :name,
     certNo:certNumber,
     cgpa: cgpa,
-    to: certifiedTo,
+    to: certifiedTo
     //signer: signerId
   }
   var dataToSign = JSON.stringify(data)
@@ -41,7 +41,7 @@ async function verify(){
     name :name,
     certNo:certNumber,
     cgpa: cgpa,
-    to: certifiedTo,
+    to: certifiedTo
     //signer: signerId
   }
 
@@ -52,21 +52,13 @@ async function verify(){
     toBlock: 'latest'}, (error, events)=>{
     var signatureFromEvent = events[0].returnValues['_signature'];
     var signedByFromEvent = events[0].returnValues['signedBy']
-
-    window.web3.eth.personal.ecRecover(dataToVerify, signatureFromEvent).then((a)=>{
-      if(a == signedByFromEvent)
-        alert(verified);
+    window.web3.eth.personal.ecRecover(dataToVerify, signatureFromEvent).then((returnedAddress)=>{
+      if(window.web3.utils.toChecksumAddress(returnedAddress) == signedByFromEvent)
+        alert('verified');
       else
         alert("Verification failed")
     })
   });
-  
-  /*TODO
-    getPastEvents('')  ====(DONE)====
-    signedby - getThisValue from past event.
-    if(web3.eth.personal.ecREcover(dataToVerify,Signature) == signedBy)
-      alert('verified')
-  */
 }
 
 function getDefaultAccount(){
