@@ -12,7 +12,9 @@ async function signAndSubmit(){
   var data = {
     name :name,
     certNo:certNumber,
-    cgpa: cgpa
+    cgpa: cgpa,
+    to: certifiedTo,
+    //signer: signerId
   }
   var dataToSign = JSON.stringify(data)
   window.web3.eth.personal.sign(dataToSign, await getDefaultAccount()).then((signature)=>{
@@ -26,18 +28,41 @@ async function signAndSubmit(){
   
 }
 
-function verify(){
+async function verify(){
+  checkAndInjectProvider();
+  var account = await getDefaultAccount();
   var name = document.getElementById('name').value
   var certNumber = document.getElementById('certificateNumber').value
   var cgpa = document.getElementById('cgpa').value
-  var data ={
+  var certifiedTo = document.getElementById('addressOfStudent').value//"0xF8E7cFf01db79c156C6aE7e2804fbB97628f0Ef5";          
+  var signerId = document.getElementById('signerId').value; 
+
+  var data = {
     name :name,
     certNo:certNumber,
-    cgpa: cgpa
+    cgpa: cgpa,
+    to: certifiedTo,
+    //signer: signerId
   }
+
   var dataToVerify = JSON.stringify(data)
+  var certNumberAsHex = web3.utils.numberToHex(certNumber)
+  var contractInstance = new window.web3.eth.Contract(abi, contractAddress);
+  contractInstance.getPastEvents('certificateApproved', {filter:{_certificateNo: certNumberAsHex}, fromBlock: 0,
+    toBlock: 'latest'}, (error, events)=>{
+    var signatureFromEvent = events[0].returnValues['_signature'];
+    var signedByFromEvent = events[0].returnValues['signedBy']
+
+    window.web3.eth.personal.ecRecover(dataToVerify, signatureFromEvent).then((a)=>{
+      if(a == signedByFromEvent)
+        alert(verified);
+      else
+        alert("Verification failed")
+    })
+  });
+  
   /*TODO
-    getPastEvents('')
+    getPastEvents('')  ====(DONE)====
     signedby - getThisValue from past event.
     if(web3.eth.personal.ecREcover(dataToVerify,Signature) == signedBy)
       alert('verified')

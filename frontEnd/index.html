@@ -9,6 +9,7 @@
   <script src="public/js/index.js"></script>
   <script src="public/js/abi.js"></script>
 </head>
+
 <body>
   <form id="signForm">
   
@@ -19,7 +20,7 @@
   <label for="name">Name</label>
   <input type="text" id="name"> <br>
   <label for="cgpa">CGPA</label>
-  <input type="text" id="cgpa"> <br>
+  <input type="number" step="0.01" id="cgpa"> <br>
   <label for="addressOfStudent">Issued To</label>
   <input type="text" id="addressOfStudent"> <br>
   <label for="signerId" id="signerIdLabel">SignerId</label>
@@ -44,6 +45,7 @@
           document.getElementById('signBtn').value="verify"
          }
     }
+
     function decide(){
       var radioBtn = document.getElementsByName('option');
       for(i=0; i < radioBtn.length; i++){
@@ -56,8 +58,7 @@
             verify();
         }
         }
-        
-    }
+      }
     }
   </script>
 </body>
