@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="public/js/web3.js"></script>
   <script src="public/js/index.js"></script>
+  <script src="public/js/abi.js"></script>
 </head>
 <body>
   <form id="signForm"
@@ -28,17 +29,13 @@
       checkAndInjectProvider();
     })
     function decide(){
-      
-      
       var radioBtn = document.getElementsByName('option');
       for(i=0; i < radioBtn.length; i++){
         if(radioBtn[i].checked){
-          
           switch(radioBtn[i].value){
           case "sign":
             signAndSubmit();
             break;
-        
           case "verify":
             verify();
         }

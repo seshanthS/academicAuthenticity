@@ -60,14 +60,14 @@ contract cert {
   }
   
   //Broadcasts the certificate to the network.
-  function broadcast(uint _certificateNo,address _to, bytes memory certificate, uint _signerId)public
+  function broadcast(uint _certificateNo, address _to, bytes memory _signature, uint _signerId)public
   onlySigners(_signerId){
 
     //must be a valid signer
     require(signer[_signerId] != address(0), "Not a signer anymore");
     certifiedTo[_certificateNo] = _to;
 
-    emit certificateApproved(_certificateNo, certificate, now, _to, msg.sender);
+    emit certificateApproved(_certificateNo, _signature, now, _to, msg.sender);
   } 
 
   //Function returns the address/user to whom the certificate is awarded.
