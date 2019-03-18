@@ -1,0 +1,45 @@
+input[type=text],input[type=file],input[type=password],input[type=number], select, textarea {
+  width: 100%;
+  padding: 7px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=button] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+.signForm{
+  max-width: 450px;
+  background: #FAFAFA;
+  padding: 15px;
+  margin: 50px auto;
+  box-shadow: 1px 1px 25px rgba(0, 0, 0, 0.35);
+  border-radius: 10px;
+  border: 6px solid #8e5c39;
+  /*#305A72*/
+}
+
+/*form */
+ * {
+  box-sizing: border-box;
+}
+
+h1 {
+    font-size: 16px;
+    font: 25px Arial, Helvetica, sans-serif;
+    line-height: 40px;
+    text-align: center;
+}
